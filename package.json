@@ -18,13 +18,13 @@
     "url": "git://github.com/sonnyp/deposito.git"
   },
   "dependencies": {
-    "connect": "^2.14.2",
-    "send": "^0.2.0",
-    "js-yaml": "^3.0.2"
+    "connect": "~2.14.2",
+    "send": "~0.2.0",
+    "js-yaml": "~3.0.2"
   },
   "devDependencies": {
-    "grunt": "^0.4.3",
-    "grunt-jsvalidate": "^0.2.2",
-    "grunt-contrib-jshint": "^0.8.0"
+    "grunt": "~0.4.3",
+    "grunt-jsvalidate": "~0.2.2",
+    "grunt-contrib-jshint": "~0.8.0"
   }
 }
