@@ -1,0 +1,126 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var http = require('http');
+var url = require('url');
+var path = require('path');
+var connect = require('connect');
+var send = require('send');
+var yaml = require('js-yaml');
+var fs = require('fs');
+var mime = send.mime;
+
+var config;
+try {
+  config = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../default.yml'), 'utf8'));
+}
+catch (e) {
+  throw e;
+}
+
+try {
+  var customConfig = yaml.safeLoad(fs.readFileSync('.deposito.yml', 'utf8'));
+  for (var i in config) {
+    if (i in customConfig) {
+      config[i] = customConfig[i];
+    }
+  }
+}
+catch (e) {}
+
+if (config.mime) {
+  mime.define(config.mime);
+}
+
+var app = connect();
+app.use(function(req, res, next) {
+  //
+  //handle method OPTIONS
+  //
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'GET, HEAD, OPTIONS');
+    res.writeHead(200);
+    return res.end();
+  }
+
+  //
+  //handle unsupported methods
+  //
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405);
+    return res.end();
+  }
+
+  var pathname = url.parse(req.url).pathname;
+
+  //
+  //handle index
+  //
+  if (pathname === '/')
+    return sendDocument(config.index, req, res);
+
+  //
+  //redirect to index
+  //
+  if (pathname === '/' + config.index)
+    return redirectToIndex();
+
+  next();
+});
+
+var acceptDocument = function(p, req) {
+  var ext = path.extname(p);
+  var type = send.mime.lookup(ext);
+  var accept = req.headers.accept;
+
+  if (accept.indexOf('*/*') > -1 || accept.indexOf(type) > -1)
+    return true;
+  return false;
+};
+
+var sendDocument = function(p, req, res) {
+  //Content-Security-Policy
+  if (config.CSP)
+    res.setHeader('Content-Security-Policy', config.CSP);
+  //X-Frame-Option
+  if (config.frame)
+    res.setHeader('X-Frame-Option', config.frame);
+
+  send(req, p)
+  .root(config.root)
+  .index(config.index)
+  .pipe(res);
+};
+
+var redirectToIndex = function(req, res) {
+  res.writeHead(301, {
+    'Location': '/'
+  });
+  res.end();
+};
+
+var fileServer = function(req, res) {
+  function error() {
+    if (config['history API'] === true && acceptDocument(config.index, req))
+      return sendDocument(config.index, req, res);
+
+    res.writeHead(404);
+    if (config['not found'] && acceptDocument(config['not found'], req))
+      sendDocument(config['not found'], req, res);
+    else
+      res.end();
+  }
+
+  var pathname = url.parse(req.url).pathname;
+
+  send(req, pathname)
+  .root(config.root)
+  .on('error', error)
+  .pipe(res);
+};
+
+app.use(fileServer);
+
+//listen
+http.createServer(app).listen(config.port);

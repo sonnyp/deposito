@@ -1,0 +1,30 @@
+{
+  "name": "deposito",
+  "version": "0.0.0",
+  "description": "Web server for static and single page Web applications",
+  "homepage": "https://github.com/sonnyp/deposito",
+  "bugs": "https://github.com/sonnyp/deposito/issues",
+  "license": "MIT",
+  "author": "Sonny Piers <sonny@fastmail.net>",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "bin": "bin/deposito",
+  "scripts": {
+    "test": "grunt test --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sonnyp/deposito.git"
+  },
+  "dependencies": {
+    "connect": "^2.14.2",
+    "send": "^0.2.0",
+    "js-yaml": "^3.0.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.3",
+    "grunt-jsvalidate": "^0.2.2",
+    "grunt-contrib-jshint": "^0.8.0"
+  }
+}

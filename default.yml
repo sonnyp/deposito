@@ -1,0 +1,28 @@
+# port
+port: 8080
+
+# root folder
+root: public
+
+# index file
+index: index.html
+
+# history API
+# if enabled, deposito will serve index for unfound documents
+history API: true
+
+# not found
+# if specified, deposito will serve this file for unfound documents
+not found: 404.html
+
+# custom mime
+# allow to (re)define any mime type
+# deposito includes https://github.com/broofa/node-mime/tree/master/types
+mime:
+  # text/example: [ex, example]
+
+# Content-Security-Policy
+CSP: default-src 'self'; style-src 'self' 'unsafe-inline'; img-src *; media-src *; connect-src *; script-src 'self' 'unsafe-eval'
+
+# X-Frame-Option
+frame: 'DENY'
