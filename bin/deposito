@@ -33,6 +33,18 @@ if (config.mime) {
   mime.define(config.mime);
 }
 
+var csp = '';
+for (var i in config.CSP) {
+  csp += i + ': ';
+  if (typeof config.CSP[i] === 'string')
+    csp += config.CSP[i] + '; ';
+  else if (Array.isArray(config.CSP[i])) {
+    config.CSP[i].forEach(function(src, a) {
+      csp += src + (a === config.CSP[i].length - 1 ? '; ' : ', ');
+    });//jshint ignore:line
+  }
+}
+
 var app = connect();
 app.use(function(req, res, next) {
   //
@@ -82,14 +94,12 @@ var acceptDocument = function(p, req) {
 var sendDocument = function(p, req, res) {
   //Content-Security-Policy
   if (config.CSP)
-    res.setHeader('Content-Security-Policy', config.CSP);
+    res.setHeader('Content-Security-Policy', csp);
   //X-Frame-Option
   if (config.frame)
     res.setHeader('X-Frame-Option', config.frame);
 
-  send(req, p)
-  .root(config.root)
-  .index(config.index)
+  send(req, p, {root: config.root, index: config.index})
   .pipe(res);
 };
 
@@ -114,8 +124,7 @@ var fileServer = function(req, res) {
 
   var pathname = url.parse(req.url).pathname;
 
-  send(req, pathname)
-  .root(config.root)
+  send(req, pathname, {root: config.root})
   .on('error', error)
   .pipe(res);
 };

@@ -19,10 +19,26 @@ not found: 404.html
 # allow to (re)define any mime type
 # deposito includes https://github.com/broofa/node-mime/tree/master/types
 mime:
-  # text/example: [ex, example]
+  # text/example: [extension1, extension2]
 
-# Content-Security-Policy
-CSP: default-src 'self'; style-src 'self' 'unsafe-inline'; img-src *; media-src *; connect-src *; script-src 'self' 'unsafe-eval'
+# Content-Security-Policy https://developer.mozilla.org/en-US/docs/Web/Security/CSP/CSP_policy_directives
+CSP:
+  default-src: self
+  style-src:
+    - self
+    - unsafe-inline
+  script-src:
+    - self
+    - unsafe-eval
+  img-src: '*'
+  media-src: '*'
+  font-src: '*'
+  connect-src: '*'
+  object-src: none
+  child-src: none
+  frame-ancestors: none
+  report-uri: none
+
 
 # X-Frame-Option
 frame: 'DENY'
