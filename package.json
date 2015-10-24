@@ -6,23 +6,16 @@
   "bugs": "https://github.com/sonnyp/deposito/issues",
   "license": "MIT",
   "author": "Sonny Piers <sonny@fastmail.net>",
-  "engines": {
-    "node": ">=0.8.0"
-  },
   "bin": "bin/deposito",
   "scripts": {
-    "test": "./node_modules/jshint/bin/jshint bin/deposito package.json .jshintrc"
+    "preversion": "npm test",
+    "lint": "standard bin/deposito",
+    "test": "npm run lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/sonnyp/deposito.git"
-  },
+  "repository": "github:sonnyp/deposito",
   "dependencies": {
-    "connect": "~2.25.7",
-    "send": "~0.8.3",
-    "js-yaml": "~3.1.0"
-  },
-  "devDependencies": {
-    "jshint": "~2.5.4"
+    "connect": "^3.4.0",
+    "send": "^0.13.0",
+    "js-yaml": "^3.4.3"
   }
 }

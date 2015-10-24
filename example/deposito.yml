@@ -2,7 +2,7 @@
 port: 8080
 
 # root folder
-root: public
+root: public/
 
 # index file
 index: index.html
@@ -17,7 +17,7 @@ not found: 404.html
 
 # custom mime
 # allow to (re)define any mime type
-# deposito includes https://github.com/broofa/node-mime/tree/master/types
+# deposito uses https://github.com/broofa/node-mime
 mime:
   # text/example: [extension1, extension2]
 
