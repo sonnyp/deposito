@@ -1,6 +1,6 @@
 {
   "name": "deposito",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Web server for static and single page Web applications",
   "homepage": "https://github.com/sonnyp/deposito",
   "bugs": "https://github.com/sonnyp/deposito/issues",
