@@ -15,7 +15,8 @@
   "repository": "github:sonnyp/deposito",
   "dependencies": {
     "connect": "^3.4.0",
-    "send": "^0.13.0",
-    "js-yaml": "^3.4.3"
+    "js-yaml": "^3.4.3",
+    "portfinder": "^0.4.0",
+    "send": "^0.13.0"
   }
 }

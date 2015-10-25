@@ -10,6 +10,7 @@ var send = require('send')
 var yaml = require('js-yaml')
 var fs = require('fs')
 var mime = send.mime
+var portfinder = require('portfinder')
 
 var config
 try {
@@ -135,4 +136,11 @@ var fileServer = function (req, res) {
 app.use(fileServer)
 
 // listen
-http.createServer(app).listen(config.port)
+portfinder.basePort = config.port
+portfinder.getPort(function (err, port) {
+  if (err) throw err
+  http.createServer(app).listen(port, function (error) {
+    if (error) throw error
+    console.log('deposito listening on', port)
+  })
+})
